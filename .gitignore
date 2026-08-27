@@ -38,4 +38,5 @@ release/
 temp/
 fucking-algorithm-english/
 !extension/build/chrome-mv3-prod/**
+README.md
 
