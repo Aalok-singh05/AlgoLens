@@ -1,0 +1,65 @@
+{
+  "name": "algovault",
+  "displayName": "AlgoVault",
+  "version": "0.1.0",
+  "description": "Your competitive programming operating system",
+  "scripts": {
+    "dev": "plasmo dev",
+    "build": "plasmo build && node scripts/post-build.js",
+    "package": "plasmo package && node scripts/post-build.js"
+  },
+  "dependencies": {
+    "@plasmohq/storage": "^1.11.0",
+    "canvas-confetti": "^1.9.4",
+    "framer-motion": "^12.42.2",
+    "lucide-react": "^0.395.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "recharts": "^2.12.7"
+  },
+  "devDependencies": {
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/chrome": "0.0.268",
+    "@types/node": "20.14.9",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "autoprefixer": "^10.4.19",
+    "plasmo": "0.90.5",
+    "postcss": "8.5.26",
+    "sharp": "^0.35.2",
+    "svgo": "3.3.4",
+    "tailwindcss": "^3.4.4",
+    "typescript": "5.4.5"
+  },
+  "manifest": {
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlD5R+fHIX281LUAUIDA82m5GQp63wYC2nXksTDu/zcNPQKa3/JM7Vk11BIrj9/A1yq82Gh+AlrR5Cehax5yUiT7ZiH9BuEBvoHltDbiiqOH271czTz+nNLe39CEDNkxlEUtkc/2dZCRkNJqihZQIqfeclPEq8RNBmA2darv0RZFbecNMfYCc6p9eu9sWKP+uVtBpTbsL50kzHUxl03r4gJyeHmJeb1O6HKZJY3vIT556BL3ZNbAPqgszN1cdjZRsStDFSMp2ceTC1+Yqvh97lh+WUjw9IrKIrFeE3d3Jwjow8sZrxA3GFpm3IWnvPk4JU1aDuGz0CVLBqPOjZ27vfQIDAQAB",
+    "permissions": [
+      "sidePanel",
+      "storage",
+      "cookies",
+      "unlimitedStorage",
+      "identity"
+    ],
+    "host_permissions": [
+      "https://leetcode.com/*",
+      "https://raw.githubusercontent.com/*",
+      "https://api.github.com/*",
+      "https://api.entranthub.com/*",
+      "https://zerotrac.github.io/*",
+      "http://localhost:8080/*"
+    ],
+    "web_accessible_resources": [
+      {
+        "resources": [
+          "assets/*"
+        ],
+        "matches": [
+          "https://leetcode.com/*"
+        ]
+      }
+    ],
+    "side_panel": {
+      "default_path": "sidepanel.html"
+    }
+  }
+}

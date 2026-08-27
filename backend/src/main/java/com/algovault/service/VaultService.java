@@ -1,0 +1,53 @@
+package com.algovault.service;
+import com.algovault.model.VaultEntry;
+import com.algovault.model.User;
+import com.algovault.repository.VaultEntryRepository;
+import com.algovault.repository.UserRepository;
+import com.algovault.repository.ProblemRepository;
+import com.algovault.model.Problem;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
+@org.springframework.transaction.annotation.Transactional
+@RequiredArgsConstructor
+public class VaultService {
+    private final VaultEntryRepository repository;
+    private final UserRepository userRepository;
+    private final ProblemRepository problemRepository;
+
+    public List<VaultEntry> searchVault(Long userId, String query) {
+        if (query == null || query.isBlank()) {
+            return repository.findByUserIdOrderByUpdatedAtDesc(userId);
+        }
+        return repository.searchForUser(userId, query);
+    }
+
+    public VaultEntry saveEntry(Long userId, VaultEntry entry) {
+        User user = userRepository.findById(userId).orElseThrow();
+        // POST is create-only. Never honour a client-supplied primary key: doing
+        // so lets a caller overwrite another user's row by changing `id`.
+        entry.setId(null);
+        entry.setUser(user);
+
+        if (entry.getProblem() != null && entry.getProblem().getTitleSlug() != null) {
+            Problem problem = problemRepository.findByTitleSlug(entry.getProblem().getTitleSlug())
+                .orElseGet(() -> problemRepository.save(Problem.builder()
+                    .titleSlug(entry.getProblem().getTitleSlug())
+                    .title(entry.getTitle() != null ? entry.getTitle() : entry.getProblem().getTitleSlug())
+                    .build()));
+            entry.setProblem(problem);
+        }
+
+        return repository.save(entry);
+    }
+
+    public void deleteEntry(Long userId, Long entryId) {
+        VaultEntry entry = repository.findById(entryId).orElseThrow();
+        if (!entry.getUser().getId().equals(userId)) {
+            throw new org.springframework.security.access.AccessDeniedException("Not authorized to delete this entry");
+        }
+        repository.delete(entry);
+    }
+}
